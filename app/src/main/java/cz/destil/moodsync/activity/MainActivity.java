@@ -12,7 +12,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.squareup.otto.ThreadEnforcer;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -28,7 +30,6 @@ import cz.destil.moodsync.light.MirroringHelper;
 import cz.destil.moodsync.service.LightsService;
 
 public class MainActivity extends Activity {
-
     @Bind(R.id.container)
     LinearLayout vContainer;
     @Bind(R.id.name)
@@ -117,7 +118,12 @@ public class MainActivity extends Activity {
 
     @Subscribe
     public void onSuccess(SuccessEvent event) {
-        hideProgress();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                hideProgress();
+            }
+        });
     }
 
     private void stop() {

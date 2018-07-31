@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MoodSync for LIFX</string>
-    <string name="activity_name">MoodSync LIFX</string>
-    <string name="app_name_r"><![CDATA[MoodSync for LIFX<sup><small>®<small></sup>]]></string>
+    <string name="app_name">MoodSync for LIFX and Hue</string>
+    <string name="activity_name">MoodSync LIFX and Hue</string>
+    <string name="app_name_r"><![CDATA[MoodSync for LIFX<sup><small>®<small></sup> and Hue]]></string>
     <string name="turned_off">Turned off</string>
     <string name="turned_on">Turned on</string>
     <string name="more">More at github.com/destil/moodsync</string>
@@ -12,5 +12,11 @@
     <string name="connecting">Connecting to LIFX lights …</string>
     <string name="lifx_disconnected">LIFX lights disconnected</string>
     <string name="no_lights_found">No lights found on this network</string>
-
+    <string name="connecting_to_hue">Connecting to Hue lights …</string>
+    <string name="discovery_hue_bridge_error">Error doing bridge discovery …</string>
+    <string name="discovery_no_hue_bridge">No Hue bridge found on this network</string>
+    <string name="auth_hue_bridge">Press the link button to authenticate</string>
+    <string name="no_connection_hue_bridge">Could not connect to Hue bridge</string>
+    <string name="connection_lost_hue_bridge">Connection lost to Hue bridge. Attempting to reconnect</string>
+    <string name="connection_restored_hue_bridge">Connection restored to Hue bridge</string>
 </resources>

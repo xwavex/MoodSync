@@ -17,6 +17,7 @@ import cz.destil.moodsync.core.Config;
 import cz.destil.moodsync.event.LocalColorEvent;
 import cz.destil.moodsync.light.ColorExtractor;
 import cz.destil.moodsync.light.LightsController;
+import cz.destil.moodsync.light.LightsControllerHue;
 import cz.destil.moodsync.light.LocalColorSwitcher;
 import cz.destil.moodsync.light.MirroringHelper;
 import cz.destil.moodsync.util.SleepTask;
@@ -29,8 +30,9 @@ import cz.destil.moodsync.util.SleepTask;
 public class LightsService extends Service {
     private MirroringHelper mMirroring;
     private ColorExtractor mColorExtractor;
-    private LightsController mLights;
-    private WifiManager.MulticastLock mMulticastLock;
+//    private LightsController mLights;
+    private LightsControllerHue mLightsHue;
+//    private WifiManager.MulticastLock mMulticastLock;
     private LocalColorSwitcher mLocalSwitcher;
 
 
@@ -44,7 +46,9 @@ public class LightsService extends Service {
         super.onCreate();
         mMirroring = MirroringHelper.get();
         mColorExtractor = ColorExtractor.get();
-        mLights = LightsController.get();
+//        mLights = LightsController.get();
+        mLightsHue = LightsControllerHue.get();
+
         mLocalSwitcher = LocalColorSwitcher.get();
         App.bus().register(this);
     }
@@ -74,17 +78,22 @@ public class LightsService extends Service {
                 .setContentIntent(pi).build();
         startForeground(42, notification);
 
-        WifiManager wifi;
-        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        mMulticastLock = wifi.createMulticastLock("lifx");
-        mMulticastLock.acquire();
+//        WifiManager wifi;
+//
+////        getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+//        mMulticastLock = wifi.createMulticastLock("lifx");
+//        mMulticastLock.acquire();
 
-        mLights.start();
+//        mLights.start();
+        mLightsHue.start();
         mColorExtractor.start(mMirroring, new ColorExtractor.Listener() {
             @Override
             public void onColorExtracted(int color) {
+                // TODO check local switcher
                 if (!mLocalSwitcher.isRunning()) {
-                    mLights.changeColor(color);
+//                    mLights.changeColor(color);
+                    mLightsHue.changeColor(color);
                 }
             }
         });
@@ -93,14 +102,16 @@ public class LightsService extends Service {
     private void stop() {
         mColorExtractor.stop();
         mMirroring.stop();
-        mLights.signalStop();
+//        mLights.signalStop();
+        mLightsHue.signalStop();
         new SleepTask(Config.FINAL_DELAY, new SleepTask.Listener() {
             @Override
             public void awoken() {
-                mLights.stop();
-                if (mMulticastLock != null) {
-                    mMulticastLock.release();
-                }
+//                mLights.stop();
+                mLightsHue.stop();
+//                if (mMulticastLock != null) {
+//                    mMulticastLock.release();
+//                }
                 stopForeground(true);
                 stopSelf();
             }
@@ -109,6 +120,7 @@ public class LightsService extends Service {
 
     @Subscribe
     public void onNewLocalColor(LocalColorEvent event) {
-        mLights.changeColor(event.newColor);
+//        mLights.changeColor(event.newColor);
+        mLightsHue.changeColor(event.newColor);
     }
 }

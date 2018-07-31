@@ -3,6 +3,7 @@ package cz.destil.moodsync.light;
 import android.graphics.Color;
 
 import cz.destil.moodsync.R;
+import cz.destil.moodsync.activity.MainActivity;
 import cz.destil.moodsync.core.App;
 import cz.destil.moodsync.core.BaseAsyncTask;
 import cz.destil.moodsync.core.Config;
