@@ -1,3 +1,6 @@
+## ADDED SUPPORT FOR HUE LAMPS
+
+
 # MoodSync for LIFX®
 Simple app which mirrors the screen of Android TV to LIFX® lights.
 
